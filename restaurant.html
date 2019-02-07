@@ -12,6 +12,7 @@
   <!-- Main CSS file -->
   <link rel="stylesheet" href="css/styles.css" type="text/css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 
 <body class="inside">
@@ -21,26 +22,27 @@
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
-    <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" >
-      <li><a href="/">Home</a></li>
-    </ul>
-    <!-- End breadcrumb -->
     <!-- End nav -->
   </header>
   <!-- End header -->
 
+  <!-- Beginning breadcrumb -->
+  <ul id="breadcrumb" >
+    <li><a href="/">Home</a></li>
+  </ul>
+  <!-- End breadcrumb -->
+  
   <!-- Beginning main -->
   <main id="maincontent">
 
     <!-- Beginning map -->
-    <section id="map-container">
+    <section id="map-container" aria-role="map-container">
       <div id="map"></div>
     </section>
     <!-- End map -->
 
     <!-- Beginning restaurant -->
-    <section id="restaurant-container">
+    <section id="restaurant-container" aria-role="restaurant-container">
       <h1 id="restaurant-name"></h1>
       <img id="restaurant-img">
       <p id="restaurant-cuisine"></p>
@@ -49,8 +51,8 @@
     </section>
     <!-- end restaurant -->
 
-    <!-- Beginning reviews -->
-    <section id="reviews-container">
+    <!-- Beginning reviews --> 
+    <section id="reviews-container" aria-role="reviews-container">
       <ul id="reviews-list"></ul>
     </section>
     <!-- End reviews -->

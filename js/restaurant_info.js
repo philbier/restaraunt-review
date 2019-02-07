@@ -6,6 +6,7 @@ var newMap;
  */
 document.addEventListener('DOMContentLoaded', (event) => {  
   initMap();
+  document.getElementById("restaurant-name").focus();
 });
 
 /**
@@ -22,7 +23,7 @@ initMap = () => {
         scrollWheelZoom: false
       });
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
-        mapboxToken: 'pk.eyJ1IjoicGhpbGF0bWFwYm94IiwiYSI6ImNqcnJ4NmxvYjBqMnQ0YW5vMzR6amhpcHcifQ.dO7u-ib0Vu2tu4JT4omMfw',
+        mapboxToken: 'pk.eyJ1IjoicGhpbGF0bWFwYm94IiwiYSI6ImNqcnN4bGd5bDI4OXc0NHBqemhqYWt3MHMifQ.ne2BKuhLxAXqSnVwy0qBTw',
         maxZoom: 18,
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
           '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
@@ -56,6 +57,7 @@ initMap = () => {
  */
 fetchRestaurantFromURL = (callback) => {
   if (self.restaurant) { // restaurant already fetched!
+    
     callback(null, self.restaurant)
     return;
   }
@@ -82,16 +84,21 @@ fetchRestaurantFromURL = (callback) => {
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
+  name.tabIndex = "0";
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
+  address.tabIndex = "0";
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
+  image.className = 'restaurant-img';
+  image.title = restaurant.name;
+  image.alt = restaurant.name;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
+  cuisine.tabIndex = "0";
 
   // fill operating hours
   if (restaurant.operating_hours) {
@@ -119,6 +126,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 
     hours.appendChild(row);
   }
+  hours.tabIndex = "0";
 }
 
 /**
@@ -128,15 +136,18 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
+  title.tabIndex = "0";
   container.appendChild(title);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
+    noReviews.tabIndex = "0";
     container.appendChild(noReviews);
     return;
   }
   const ul = document.getElementById('reviews-list');
+  ul.tabIndex = "0";
   reviews.forEach(review => {
     ul.appendChild(createReviewHTML(review));
   });
@@ -148,20 +159,26 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
+  li.tabIndex = "0";
   const name = document.createElement('p');
+  name.tabIndex = "0";
   name.innerHTML = review.name;
   li.appendChild(name);
 
   const date = document.createElement('p');
   date.innerHTML = review.date;
+  date.tabIndex = "0";
   li.appendChild(date);
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
+  rating.tabIndex = "0";
   li.appendChild(rating);
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
+  comments.tabIndex = "0";
+  comments.setAttribute('aria-role', 'comment');
   li.appendChild(comments);
 
   return li;
