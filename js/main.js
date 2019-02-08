@@ -11,13 +11,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
   initMap(); // added 
   fetchNeighborhoods();
   fetchCuisines();
-  navigator.serviceWorker.register('/sw.js').then(function(reg) {
-    // registration worked
-    console.log('Registration succeeded. Scope is ' + reg.scope);
-  }).catch(function(error) {
-    // registration failed
-    console.log('Registration failed with ' + error);
-  });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js').then(function(reg) {
+        console.log('Registration succeeded. Scope is ' + reg.scope);
+      }).catch(function(error) {
+        console.log('Registration failed with ' + error);
+      });
+    });
+  }
 });
 
 /**
@@ -169,10 +172,11 @@ createRestaurantHTML = (restaurant) => {
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
   image.title = restaurant.name;
-  image.alt = restaurant.name;
+  image.alt = `${restaurant.name} in ${restaurant.neighborhood}`;
+  
   li.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);
 
